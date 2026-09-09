@@ -1,0 +1,221 @@
+{
+  "distinct_tests": 41,
+  "status": "passed",
+  "runs": [
+    {
+      "run": "final-test-results.xml",
+      "tests": 36,
+      "failures": 0,
+      "errors": 0,
+      "seconds": 183.73,
+      "cases": [
+        {
+          "name": "test_http_full_roundtrip_and_security",
+          "seconds": 9.346
+        },
+        {
+          "name": "test_queue_cancel_and_retry",
+          "seconds": 1.086
+        },
+        {
+          "name": "test_python_worker_outbound_guard",
+          "seconds": 0.106
+        },
+        {
+          "name": "test_normalized_phone_offsets[13800138000]",
+          "seconds": 0.007
+        },
+        {
+          "name": "test_normalized_phone_offsets[+86 138-0013-8000]",
+          "seconds": 0.001
+        },
+        {
+          "name": "test_normalized_phone_offsets[\\uff11\\uff13\\uff18\\uff10\\uff10\\uff11\\uff13\\uff18\\uff10\\uff10\\uff10]",
+          "seconds": 0.001
+        },
+        {
+          "name": "test_id_checksum_and_overlap",
+          "seconds": 0.001
+        },
+        {
+          "name": "test_csv_formula_protection[=HYPERLINK(\"https://example.com\")]",
+          "seconds": 0.001
+        },
+        {
+          "name": "test_csv_formula_protection[ +SUM(A1:A2)]",
+          "seconds": 0.001
+        },
+        {
+          "name": "test_csv_formula_protection[\\t@demo]",
+          "seconds": 0.001
+        },
+        {
+          "name": "test_csv_formula_protection[-cmd]",
+          "seconds": 0.001
+        },
+        {
+          "name": "test_csv_numbers",
+          "seconds": 0.001
+        },
+        {
+          "name": "test_vault_integrity",
+          "seconds": 1.079
+        },
+        {
+          "name": "test_text_roundtrip[utf-8]",
+          "seconds": 0.749
+        },
+        {
+          "name": "test_text_roundtrip[utf-8-sig]",
+          "seconds": 0.755
+        },
+        {
+          "name": "test_text_roundtrip[gb18030]",
+          "seconds": 0.81
+        },
+        {
+          "name": "test_text_roundtrip[utf-16]",
+          "seconds": 0.83
+        },
+        {
+          "name": "test_csv_roundtrip[,]",
+          "seconds": 0.786
+        },
+        {
+          "name": "test_csv_roundtrip[;]",
+          "seconds": 0.745
+        },
+        {
+          "name": "test_csv_roundtrip[\\t]",
+          "seconds": 0.741
+        },
+        {
+          "name": "test_csv_roundtrip[|]",
+          "seconds": 0.806
+        },
+        {
+          "name": "test_word_output[docx]",
+          "seconds": 1.019
+        },
+        {
+          "name": "test_word_output[pdf]",
+          "seconds": 1.29
+        },
+        {
+          "name": "test_excel_output[xlsx]",
+          "seconds": 1.304
+        },
+        {
+          "name": "test_excel_output[pdf]",
+          "seconds": 1.132
+        },
+        {
+          "name": "test_excel_missing_formula_cache",
+          "seconds": 0.04
+        },
+        {
+          "name": "test_reject_mismatched_office",
+          "seconds": 0.001
+        },
+        {
+          "name": "test_storage_is_encrypted",
+          "seconds": 0.007
+        },
+        {
+          "name": "test_image_redaction_and_recovery[png]",
+          "seconds": 25.345
+        },
+        {
+          "name": "test_image_redaction_and_recovery[jpg]",
+          "seconds": 18.934
+        },
+        {
+          "name": "test_image_redaction_and_recovery[webp]",
+          "seconds": 19.209
+        },
+        {
+          "name": "test_image_redaction_and_recovery[bmp]",
+          "seconds": 18.973
+        },
+        {
+          "name": "test_pdf_rotations[0]",
+          "seconds": 19.195
+        },
+        {
+          "name": "test_pdf_rotations[90]",
+          "seconds": 19.95
+        },
+        {
+          "name": "test_pdf_rotations[180]",
+          "seconds": 19.291
+        },
+        {
+          "name": "test_pdf_rotations[270]",
+          "seconds": 19.538
+        }
+      ]
+    },
+    {
+      "run": "upload-and-api-tests.xml",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "seconds": 19.683,
+      "cases": [
+        {
+          "name": "test_large_upload_stays_in_memory",
+          "seconds": 0.213
+        },
+        {
+          "name": "test_declared_body_limit",
+          "seconds": 0.011
+        },
+        {
+          "name": "test_streamed_body_limit_without_content_length",
+          "seconds": 0.01
+        },
+        {
+          "name": "test_invalid_content_length",
+          "seconds": 0.01
+        },
+        {
+          "name": "test_http_full_roundtrip_and_security",
+          "seconds": 17.135
+        },
+        {
+          "name": "test_queue_cancel_and_retry",
+          "seconds": 1.086
+        },
+        {
+          "name": "test_python_worker_outbound_guard",
+          "seconds": 0.126
+        }
+      ]
+    },
+    {
+      "run": "lifecycle-and-api-tests.xml",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "seconds": 20.529,
+      "cases": [
+        {
+          "name": "test_cleanup_covers_jobs_beyond_ui_limit",
+          "seconds": 0.549
+        },
+        {
+          "name": "test_http_full_roundtrip_and_security",
+          "seconds": 18.19
+        },
+        {
+          "name": "test_queue_cancel_and_retry",
+          "seconds": 1.084
+        },
+        {
+          "name": "test_python_worker_outbound_guard",
+          "seconds": 0.112
+        }
+      ]
+    }
+  ]
+}

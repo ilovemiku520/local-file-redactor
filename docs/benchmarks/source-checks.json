@@ -1,0 +1,39 @@
+{
+  "recorded_on": "2026-09-09",
+  "scope": "Standalone open-source directory on the same Windows x64 machine; no model weights copied into this directory",
+  "setup": {
+    "script": "scripts/setup.ps1",
+    "python": "3.12.10",
+    "fresh_virtual_environment": true,
+    "locked_python_dependencies_installed": true,
+    "pip_check": "passed",
+    "sqlite_ssl_check": "passed",
+    "environment_self_check": "passed"
+  },
+  "default_tests": {
+    "command": "python -I -m pytest -q",
+    "passed": 33,
+    "skipped": 11,
+    "seconds": 13.16,
+    "note": "Uses the existing working Python environment, with this repository as the test root; asset-dependent integration tests explicitly skipped"
+  },
+  "ci_subset": {
+    "command": "python -I -m pytest -q -m \"not integration and not font\"",
+    "passed": 21,
+    "deselected": 23,
+    "seconds": 3.56,
+    "note": "Executed in the newly created source-directory virtual environment; subset of default tests, not additional unique tests"
+  },
+  "frontend": {
+    "vite": "7.3.6",
+    "build": "passed",
+    "type_check": "passed",
+    "npm_audit_known_vulnerabilities_at_check": 0
+  },
+  "model_preparation": {
+    "integrity_verifier_on_existing_assets": "passed",
+    "synthetic_archive_tests": "passed",
+    "full_online_redownload": "not performed"
+  },
+  "github_hosted_ci": "not run; repository has not been pushed"
+}

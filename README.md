@@ -202,4 +202,3 @@ models.lock.json   模型摘要与上游来源，不含权重
 ## 贡献与许可
 
 欢迎通过合成案例改进解析、规则、复核交互和测试。请阅读[贡献指南](CONTRIBUTING.md)。项目代码采用 [MIT License](LICENSE)，第三方模型和依赖仍遵循各自[上游许可](THIRD_PARTY_NOTICES.md)。
-

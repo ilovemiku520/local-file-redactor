@@ -1,0 +1,25 @@
+name: Bug report / 问题反馈
+description: 用合成样例报告可复现的问题 / Report an issue with synthetic data
+body:
+  - type: markdown
+    attributes:
+      value: 请勿上传真实文件、密码、密钥或恢复包。Do not attach real sensitive documents or recovery bundles.
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment / 环境
+      description: Windows、Python、GPU、模型版本
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Reproduction / 复现步骤
+      description: 使用虚构资料描述输入、操作、预期与实际结果。
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Sanitized evidence / 已清理的证据
+      description: 可填写非敏感错误信息、合成截图或测试结果。

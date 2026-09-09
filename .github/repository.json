@@ -1,0 +1,7 @@
+{
+  "suggested_name": "local-file-redactor",
+  "description": "本地文件脱敏与加密恢复工具：基于 Qwen3.5、PaddleOCR 和规则识别，支持 Word、Excel、PDF、文本、CSV、图片的逐页复核与多格式导出。文件在本机处理，模型权重单独下载。",
+  "default_branch": "main",
+  "visibility": "public",
+  "topics": ["document-redaction", "pii-detection", "privacy", "local-llm", "ollama", "qwen", "paddleocr", "ocr", "fastapi", "react", "chinese", "windows"]
+}

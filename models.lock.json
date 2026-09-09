@@ -1,0 +1,36 @@
+{
+  "ollama_version": "0.33.3",
+  "llm": {
+    "name": "qwen3.5:9b",
+    "digest": "6488c96fa5faab64bb65cbd30d4289e20e6130ef535a93ef9a49f42eda893ea7",
+    "quantization": "Q4_K_M",
+    "size": 6594474711,
+    "source": "https://ollama.com/library/qwen3.5:9b",
+    "template_sha256": "b507b9c2f6ca642bffcd06665ea7c91f235fd32daeefdf875a0f938db05fb315"
+  },
+  "ocr": [
+    {
+      "model": "PP-OCRv5_server_det",
+      "url": "https://paddle-model-ecology.bj.bcebos.com/paddlex/official_inference_model/paddle3.0.0/PP-OCRv5_server_det_infer.tar",
+      "files": {
+        "runtime\\models\\ocr\\PP-OCRv5_server_det\\inference.json": "af5876933d8806a1b50d895867e0781e135cd92ff37381992828fc8d1b842d28",
+        "runtime\\models\\ocr\\PP-OCRv5_server_det\\inference.pdiparams": "183146fe9d9910352f68482f623bcbbb9fa7b9e8fa1463b9ad288cef00524d2d",
+        "runtime\\models\\ocr\\PP-OCRv5_server_det\\inference.yml": "28fb721efc3634fc8aa677e474b9602cb815a91cf569ef357a7a553d7b3ce685"
+      }
+    },
+    {
+      "model": "PP-OCRv5_server_rec",
+      "url": "https://paddle-model-ecology.bj.bcebos.com/paddlex/official_inference_model/paddle3.0.0/PP-OCRv5_server_rec_infer.tar",
+      "files": {
+        "runtime\\models\\ocr\\PP-OCRv5_server_rec\\inference.json": "8e6e12e5d42531840310977fffb58165bf889fc5061408c5a8afdb6985f47fcb",
+        "runtime\\models\\ocr\\PP-OCRv5_server_rec\\inference.pdiparams": "63853f062a5f4089befc16f565a68277618e0da5cb45468b49d11079de0ada77",
+        "runtime\\models\\ocr\\PP-OCRv5_server_rec\\inference.yml": "2c719dba044c4e2228aef8ff92f5f575394d75d24c16de096a33b7cfd902f66d"
+      }
+    }
+  ],
+  "tokenizer": {
+    "runtime\\models\\tokenizer\\tokenizer.json": "5f9e4d4901a92b997e463c1f46055088b6cca5ca61a6522d1b9f64c4bb81cb42",
+    "runtime\\models\\tokenizer\\tokenizer_config.json": "316230d6a809701f4db5ea8f8fc862bc3a6f3229c937c174e674ff3ca0a64ac8"
+  },
+  "tokenizer_source": "https://huggingface.co/Qwen/Qwen3.5-9B"
+}
