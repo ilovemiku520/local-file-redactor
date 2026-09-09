@@ -35,5 +35,12 @@
     "synthetic_archive_tests": "passed",
     "full_online_redownload": "not performed"
   },
-  "github_hosted_ci": "not run; repository has not been pushed"
+  "github_hosted_ci": {
+    "recorded_on": "2026-09-09",
+    "run_url": "https://github.com/ilovemiku520/local-file-redactor/actions/runs/34360406491",
+    "commit": "8f9b7c8435d4b8c0c4a968cd7514c9f3dec19f28",
+    "backend_windows": "success",
+    "frontend_linux": "success",
+    "model_downloads": false
+  }
 }

@@ -8,6 +8,8 @@
 
 Windows · Python 3.12 · React 19 · Qwen3.5 9B · PP-OCRv5
 
+[![Source checks](https://github.com/ilovemiku520/local-file-redactor/actions/workflows/ci.yml/badge.svg)](https://github.com/ilovemiku520/local-file-redactor/actions/workflows/ci.yml)
+
 [快速开始](#快速开始) · [环境要求](#环境要求) · [试验效果](#试验效果) · [代码结构](#代码结构)
 
 </div>
@@ -80,6 +82,7 @@ README 可切换中英文；当前应用界面为中文。
 |---|---|---|
 | 已部署版本回归 | 41 个不同测试用例通过 | 含真实本地模型/OCR、文件恢复、上传保护、PDF 旋转与历史清理 |
 | 开源目录默认测试 | 33 通过、11 跳过 | 跳过需要另行下载模型/OCR 的集成测试；新增模型准备脚本检查 |
+| GitHub Actions | 前端、后端两个任务均通过 | Windows 后端基础测试与发布审计、Linux 前端构建；不下载模型 |
 | 浏览器流程 | Word 识别、复核、导出、恢复成功 | 合成资料，中文界面实际操作 |
 | 9B 短文本调用 | 约 11.41 秒冷启动；1.84 / 1.70 秒预热后 | 三条合成输入，仅模型调用，不是整份文档耗时 |
 | 离线重建 | 新目录中的完整 Python + 新虚拟环境通过 | 同一台 Windows 电脑，不代表跨硬件验收 |

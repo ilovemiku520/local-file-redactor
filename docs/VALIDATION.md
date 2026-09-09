@@ -20,7 +20,7 @@ Coverage includes normalized text offsets, overlapping candidates, ID checks, CS
 
 新增模型准备脚本的路径越界、归档提取与摘要检查用例；通过 pytest 标记区分本地基础测试和需要下载资产的集成测试。开源目录默认测试实测 **33 通过、11 跳过，用时 13.16 秒**。其中跳过项为模型/OCR 集成测试，不能作为通过项计算。
 
-The standalone source layout passed 33 default tests in 13.16 seconds; 11 integration cases were explicitly skipped. Font-dependent cases can be skipped on systems without Microsoft YaHei. CI runs a lightweight subset without model downloads or font-dependent rendering. A committed workflow is not evidence that GitHub-hosted CI has already run.
+The standalone source layout passed 33 default tests in 13.16 seconds; 11 integration cases were explicitly skipped. Font-dependent cases can be skipped on systems without Microsoft YaHei. CI runs a lightweight subset without model downloads or font-dependent rendering. These local results were recorded before publication; hosted CI evidence is recorded separately below.
 
 独立源码目录已实际执行 `scripts/setup.ps1`，完成新建 Python 3.12.10 虚拟环境、锁定依赖安装、SQLite/SSL 检查及前端构建。新环境中的 CI 基础子集实测 **21 通过、23 未选中，用时 3.56 秒**；这是上述用例的子集，不应累加为新的独立测试数量。环境自检还通过了 SQLite 写入与重新打开、图片/PDF 处理、临时后端路由及依赖一致性检查。未向源码目录复制模型。
 
@@ -31,6 +31,12 @@ The preparation script's integrity verifier was run against the existing officia
 前端在打包前更新至 Vite 7.3.6 及兼容的 esbuild 修复版本，类型检查与构建再次通过；2026-09-09 的 `npm audit` 返回 0 项已知漏洞。这是当时的前端依赖检查结果，不是整个项目的安全认证。机器可读记录：[source-checks.json](benchmarks/source-checks.json)。
 
 After compatible frontend security updates, Vite 7.3.6 passed type checking and production compilation. `npm audit` reported zero known vulnerabilities on 2026-09-09. This is a point-in-time frontend dependency result, not a security certification of the application. See [source-checks.json](benchmarks/source-checks.json).
+
+## GitHub Actions 实测 / Hosted CI
+
+2026-09-09，公开仓库的[首次 Source checks](https://github.com/ilovemiku520/local-file-redactor/actions/runs/34360406491)在提交 `8f9b7c8435d4b8c0c4a968cd7514c9f3dec19f28` 上成功完成。Windows 后端依赖安装、基础测试和发布审计通过；Linux 前端依赖安装和生产构建通过。两个任务均为 success，运行中未下载模型权重。
+
+The first public-repository [Source checks run](https://github.com/ilovemiku520/local-file-redactor/actions/runs/34360406491) succeeded on 2026-09-09 for commit `8f9b7c8435d4b8c0c4a968cd7514c9f3dec19f28`. Both jobs passed: Windows backend installation/tests/publication audit and Linux frontend installation/production build. This does not constitute Linux support for the Windows backend or real-model integration coverage.
 
 ## 浏览器与文件成品 / Browser and artifact checks
 

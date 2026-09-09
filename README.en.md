@@ -8,6 +8,8 @@
 
 Windows · Python 3.12 · React 19 · Qwen3.5 9B · PP-OCRv5
 
+[![Source checks](https://github.com/ilovemiku520/local-file-redactor/actions/workflows/ci.yml/badge.svg)](https://github.com/ilovemiku520/local-file-redactor/actions/workflows/ci.yml)
+
 [Quick start](#quick-start) · [Requirements](#requirements) · [Observed results](#observed-results) · [Source layout](#source-layout)
 
 </div>
@@ -80,6 +82,7 @@ These are **actual before/after results on synthetic data**. The right image was
 |---|---|---|
 | Deployed application regression | 41 distinct tests passed | Includes real local model/OCR, recovery, upload protection, rotated PDFs and lifecycle cleanup |
 | Default tests in this source repository | 33 passed, 11 skipped | Asset-dependent integration tests skipped; includes new model preparation checks |
+| GitHub Actions | Backend and frontend jobs passed | Windows backend tests/publication audit and Linux frontend build; no model downloads |
 | Browser flow | Word detection, review, export and recovery succeeded | Synthetic data and actual Chinese UI interaction |
 | Short 9B model calls | About 11.41 s cold; 1.84 / 1.70 s warm | Three synthetic inputs; model-call time only, not whole-document latency |
 | Offline environment reconstruction | Relocated Python plus a fresh virtual environment passed | Same Windows machine, not a cross-hardware acceptance test |
