@@ -104,7 +104,7 @@ def main() -> None:
                 try:
                     with opener.open(f"http://127.0.0.1:{port}/api/health", timeout=1) as response:
                         health = json.load(response)
-                    assert health.get('ok') is True and health.get('version') == '2.0.0', health
+                    assert health.get('ok') is True and health.get('version') == '2.1.0', health
                     break
                 except (OSError, TimeoutError):
                     if time.monotonic() > deadline:

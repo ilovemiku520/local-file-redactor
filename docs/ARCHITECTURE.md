@@ -12,7 +12,7 @@ flowchart LR
     D --> E[Native text + PDF render + OCR]
     E --> F[Rules + local Qwen model]
     F --> G[Human page review]
-    G --> H[Native reconstruction / pixel redaction]
+    G --> H[OOXML in-place edit / pixel redaction]
     H --> I[Structure and selected-content checks]
     I --> J[Redacted file + report]
     I --> K[Optional encrypted original bundle]
@@ -30,9 +30,9 @@ Each file receives a random job ID. A bounded memory buffer prevents the multipa
 - 图片手动框选按归一化坐标保存。Manual image rectangles use normalized coordinates.
 - 复核版本改变后，旧导出入口失效。Changing the review revision invalidates previous download eligibility.
 
-TXT/CSV 输出新文本；CSV 对公式型字段增加防护。DOCX/XLSX 重建干净文件，删除原有隐藏对象和附加结构，而不是在原压缩包上覆盖字符。PDF 以 300 DPI 渲染，在像素上遮挡并重建无原文字层的 PDF。图片重新编码，不继承原元数据。
+TXT/CSV 输出新文本；CSV 对公式型字段增加防护。DOCX/XLSX 在清理后的原 OOXML 结构中按位置替换敏感字符，保留样式、表格和页面属性；只导出允许的关联结构，移除原共享字符串、批注、元数据和隐藏内容。PDF 以 300 DPI 渲染，在像素上遮挡并重建无原文字层的 PDF。图片重新编码，不继承原元数据。
 
-Native Office output is deliberately simplified. Word headers/footers and notes are reviewed as regular text; hidden/deleted text and comments are not copied as hidden content. Excel hidden sheets/rows/columns are excluded; cached formula results become static values. Complex objects and formulas without cached results cause a clear failure. PDF output uses freshly encoded image pages.
+Native Office export retains the original OOXML formatting and structural layout. Word paragraphs, runs, tables, sections, headers/footers and notes remain in place. Text boxes are reviewed independently. Excel retains static styles, merges, dimensions, freeze panes and standard print settings, while formulas become cached values. Hidden data, comments, external links and unsupported auxiliary parts are removed. Images are re-encoded and redacted without changing drawing anchors. Content-review previews and Office-to-PDF conversion remain simplified; original PDF input retains its visual layout as freshly encoded image pages.
 
 ## Recovery / 反脱敏
 

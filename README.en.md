@@ -20,6 +20,10 @@ This repository contains the main backend/frontend code, setup scripts, syntheti
 
 ![Home: multi-format imports and local processing settings](docs/assets/ui-home.png)
 
+## 2.1 formatting fix
+
+Native Word/Excel export now edits the original OOXML structure instead of creating a new document. Sensitive text spanning multiple styled runs is removed character by character without flattening the paragraph or worksheet. Re-upload and analyze old jobs to use this export path. See [formatting validation](docs/LAYOUT_PRESERVATION.md).
+
 ## Features
 
 | Capability | Behavior |
@@ -28,12 +32,12 @@ This repository contains the main backend/frontend code, setup scripts, syntheti
 | Local detection | Qwen3.5 9B semantic extraction, PP-OCRv5 Chinese OCR, rules and dictionaries; explicit rules-only mode is also available |
 | Human review | Page previews, keep-original choices, additional sensitive terms and manual image rectangles; every page must be confirmed |
 | Pixel redaction | Rewrites pixels in PDFs, images and Office illustrations; rebuilt PDFs omit the original text layer and annotation objects |
-| Native Office output | Reconstructs clean, static, editable DOCX/XLSX files with basic paragraphs, tables and visible cells |
+| Preserve native Office formatting | Edits DOCX/XLSX in place, preserving fonts, sizes, colors, paragraphs, merged tables, headers/footers, row/column dimensions and print settings |
 | Encrypted recovery | Every supported format can produce a `.rdvault` bundle for byte-exact original recovery with the matching output and password |
 | Local data protection | AES-GCM job storage, Windows DPAPI key protection, bounded in-memory uploads, one-time local pairing and CSRF checks |
 | Job lifecycle | Sequential batch queue, cancel, retry, deletion, expired-job cleanup and revision-bound export validation |
 
-> Automated detection is not a zero-leakage guarantee. Review every page, especially handwriting, stamps, faces, QR codes, low-quality text and complex layouts. Office output uses simplified layout. Recovery restores the original file and does not merge later edits to the redacted output.
+> Automated detection is not a zero-leakage guarantee. Review every page, especially handwriting, stamps, faces, QR codes, low-quality text and complex layouts. Native DOCX/XLSX exports retain formatting. Content previews and Office-to-PDF exports remain simplified. Mask glyph widths and different readers may affect wrapping; pixel-identical pagination is not promised. Recovery restores the original file without merging later edits.
 
 ## Supported formats
 
@@ -41,18 +45,18 @@ This repository contains the main backend/frontend code, setup scripts, syntheti
 |---|---|---|
 | `.txt` | `.txt` | UTF-8, BOM-marked UTF-16, GB18030 and related input handling; UTF-8 output |
 | `.csv` | `.csv` | Preserves delimiters and multiline fields; protects formula-like cells; UTF-8 with BOM output |
-| `.docx` | `.docx` / `.pdf` | Body, tables, headers/footers and illustrations; simplified reconstruction |
-| `.xlsx` | `.xlsx` / `.pdf` | Visible data and basic column widths; formulas become cached static values |
+| `.docx` | `.docx` / `.pdf` | Preserves native DOCX fonts, paragraphs, sections, tables, headers/footers, notes and text-box locations; optional PDF is simplified |
+| `.xlsx` | `.xlsx` / `.pdf` | Preserves XLSX styles, merges, row/column sizes, freeze panes, number formats and print settings; formulas become cached values |
 | `.pdf` | `.pdf` | 300 DPI rendering, OCR/native-text positioning, pixel redaction and image-only PDF reconstruction |
 | `.png` / `.jpg` / `.jpeg` / `.webp` / `.bmp` | Any listed image format | Single-frame images, pixel redaction and fresh encoding; PNG by default |
 
-Legacy DOC/XLS, PPT/PPTX, macro-enabled files and multi-frame images are not supported. Office charts, text boxes, SmartArt, embedded objects, external data and formulas without cached values require prior conversion to static content. Hidden content is not copied directly into the output. See [architecture and limitations](docs/ARCHITECTURE.md).
+Legacy DOC/XLS, PPT/PPTX, macro-enabled files and multi-frame images are not supported. Office charts, SmartArt, math/embedded objects, Excel non-image drawings/legacy header pictures, external data and formulas without cached values require prior conversion to static content. Hidden content is not copied directly into the output. See [architecture and limitations](docs/ARCHITECTURE.md).
 
 ## UI preview
 
 ### Review and export
 
-Red rectangles indicate selected image regions; the right panel lists candidates and their sources. The screenshot uses the repository's synthetic Word example, reviewing text and illustrations separately.
+Red rectangles indicate selected image regions; the right panel lists candidates and their sources. Review and recovery screenshots show the 2.0 synthetic Word example, reviewing text and illustrations separately. The home screenshot above has been refreshed for 2.1.
 
 ![Page review, candidates and completed DOCX export](docs/assets/ui-review.png)
 
@@ -66,7 +70,7 @@ The README is bilingual. The application UI is currently Chinese.
 
 ## Observed results
 
-These are **actual before/after results on synthetic data**. The right image was extracted directly from the exported DOCX; no additional masking or visual retouching was applied. OCR currently creates line-level boxes, so an entire detected line may be covered.
+The images and downloadable output are **actual synthetic results retained from version 2.0**, illustrating detection, image redaction and recovery. See the [2.1 validation record](docs/LAYOUT_PRESERVATION.md) for native formatting checks. The right image was extracted directly from the exported DOCX; no additional masking or visual retouching was applied. OCR currently creates line-level boxes, so an entire detected line may be covered.
 
 | Synthetic input | Exported redacted illustration |
 |---|---|
@@ -80,14 +84,15 @@ These are **actual before/after results on synthetic data**. The right image was
 
 | Validation | Observed outcome | Scope |
 |---|---|---|
-| Deployed application regression | 41 distinct tests passed | Includes real local model/OCR, recovery, upload protection, rotated PDFs and lifecycle cleanup |
-| Default tests in this source repository | 33 passed, 11 skipped | Asset-dependent integration tests skipped; includes new model preparation checks |
+| 2.1 default regression (2026-09-14) | 41 passed, 12 skipped | Includes eight new base layout tests; model/OCR integration tests skipped by default |
+| 2.1 deployed-environment checks (2026-09-14) | 12 passed | Eight repeated base layout tests, three real API tests and one real-OCR layout/recovery test; 45 distinct cases overall |
+| 2.0 historical regression (2026-09-09) | 41 distinct tests passed | Includes real local model/OCR, recovery, upload protection, rotated PDFs and lifecycle cleanup; not all rerun |
 | GitHub Actions | Backend and frontend jobs passed | Windows backend tests/publication audit and Linux frontend build; no model downloads |
 | Browser flow | Word detection, review, export and recovery succeeded | Synthetic data and actual Chinese UI interaction |
 | Short 9B model calls | About 11.41 s cold; 1.84 / 1.70 s warm | Three synthetic inputs; model-call time only, not whole-document latency |
 | Offline environment reconstruction | Relocated Python plus a fresh virtual environment passed | Same Windows machine, not a cross-hardware acceptance test |
 
-These are functional checks and small smoke tests, **not an accuracy or zero-leakage benchmark**. No systematic benchmark of 120 files, 300 pages and 3,000 annotated entities has been completed, and no 99% detection claim is made. See the [validation notes](docs/VALIDATION.md) and [machine-readable regression summary](docs/benchmarks/regression-summary.json).
+These are functional checks and small smoke tests, **not an accuracy or zero-leakage benchmark**. No systematic benchmark of 120 files, 300 pages and 3,000 annotated entities has been completed, and no 99% detection claim is made. See the [2.1 layout validation](docs/LAYOUT_PRESERVATION.md), [2.0 validation notes](docs/VALIDATION.md) and [2.1 machine-readable summary](docs/benchmarks/layout-checks.json).
 
 ## Requirements
 
@@ -163,7 +168,8 @@ backend/app/
   main.py          Local API, pairing, review, jobs and downloads
   engine.py        Parse → detect → review → export → verify
   detection.py     Rules, dictionaries, tokenizer and local extraction
-  formats.py       TXT/CSV/DOCX/XLSX parsing and clean reconstruction
+  formats.py       Text parsing, format dispatch and content-review previews
+  office.py        In-place OOXML redaction with styles and layout retained
   raster.py        OCR, PDF rendering, coordinates and pixel redaction
   storage.py       Encrypted artifacts and SQLite job storage
   vault.py         Password-encrypted bundles and exact recovery
@@ -197,7 +203,8 @@ Default tests skip real-model/OCR integration cases. Font-dependent tests are sk
 ## Known limits
 
 - 100 MiB per input file, at most 200 preview pages/images, 40 million pixels per image; 8 million bytes for TXT/CSV and 2 million extracted text characters.
-- Office layout is simplified. Exported PDFs are image pages without the original searchable text layer.
+- Native DOCX/XLSX preserves layout properties and font styles. Mask widths, missing fonts and reader differences can affect wrapping. Content previews and Office-to-PDF exports remain simplified. For fixed page appearance, export PDF from Office first, then redact that PDF.
+- Excel conditional formatting and data validation are removed; static styles remain. Macros, comments, revision history and external links are not retained. PDF output retains visual appearance through image pages, without editable text.
 - Recovery needs the unchanged corresponding output, bundle and password. Lost passwords cannot be recovered, and later edits are not merged.
 - Inactive jobs are cleaned after their last update exceeds 24 hours. Downloads saved elsewhere remain under the user's control.
 - Encryption, process isolation and the Python network guard are not an OS-level sandbox. See [SECURITY.md](SECURITY.md).

@@ -69,7 +69,7 @@ async def lifespan(app):
     for process in list(processes.values()): process.terminate()
     executor.shutdown(wait=False,cancel_futures=True)
 
-app=FastAPI(title='本地文件脱敏',version='2.0.0',lifespan=lifespan)
+app=FastAPI(title='本地文件脱敏',version='2.1.0',lifespan=lifespan)
 app.add_middleware(TrustedHostMiddleware,allowed_hosts=['127.0.0.1','localhost'])
 app.add_middleware(MemoryUploads)
 
@@ -89,7 +89,7 @@ async def guard(request:Request,call_next):
 async def user_error(request,exc): return JSONResponse({'detail':str(exc)},400)
 
 @app.get('/api/health')
-def health(): return {'ok':True,'version':'2.0.0'}
+def health(): return {'ok':True,'version':'2.1.0'}
 
 @app.get('/api/session')
 def session_info(request:Request):

@@ -7,7 +7,7 @@ import json
 import time
 from PIL import Image
 from .storage import Storage, UserError
-from . import formats, raster, detection, vault
+from . import formats, raster, detection, vault, office
 
 
 def analyze(store, job):
@@ -54,6 +54,8 @@ def analyze(store, job):
             store.write(job_id,f'page{index}',formats.image_bytes(image))
             job['pages'].append({'id':index,'artifact':f'page{index}','width':image.width,'height':image.height,'size':[595.28,841.89],'kind':'text','blocks':refs,'uncertain':[]})
         job['warnings'].extend(document['warnings'])
+        if extension in ('docx','xlsx') and job['output_format']=='pdf':
+            job['warnings'].append('Office 转 PDF 为简化排版。保留原样式请选择 DOCX/XLSX；需要原样 PDF 时请先在 Office 中另存为 PDF 后导入。')
     blocks=document['blocks']+image_blocks
     if sum(len(block['text']) for block in blocks)>2_000_000:
         raise UserError('文件文字超过 200 万字符，请拆分文件。')
@@ -116,6 +118,8 @@ def export(store, job, password):
     extension=job['output_format']
     source_type=job['input_type']
     formula_count=0
+    if source_type in ('docx','xlsx') and extension!='pdf':
+        texts={b['id']:office.mask_text(b['text'],[f for f in findings if f['block_id']==b['id']]) for b in job['blocks']}
     if source_type in ('png','jpg','jpeg','webp','bmp'):
         data=formats.image_bytes(clean_image(0),extension)
         verified=formats.load_image(data)
@@ -134,7 +138,7 @@ def export(store, job, password):
                     if page['kind']=='image': yield clean_image(page['id']),page['size']
             data=raster.make_pdf(pages())
     else:
-        data,formula_count=formats.native_export(job['document'],extension,texts,lambda i:formats.image_bytes(clean_image(i)))
+        data,formula_count=formats.native_export(job['document'],extension,texts,lambda i:formats.image_bytes(clean_image(i)),original=store.read(job_id,'source'))
         # Parse with a separate reader and check removed text did not survive reconstruction.
         if extension=='txt':
             extracted=data.decode('utf-8')
@@ -146,7 +150,8 @@ def export(store, job, password):
             import zipfile
             from lxml import etree
             with zipfile.ZipFile(BytesIO(data)) as archive:
-                extracted='\n'.join(''.join(etree.fromstring(archive.read(name)).itertext()) for name in archive.namelist() if name.endswith('.xml'))
+                roots=[etree.fromstring(archive.read(name)) for name in archive.namelist() if name.endswith(('.xml','.rels'))]
+                extracted='\n'.join(''.join(root.itertext())+'\n'+'\n'.join(value for node in root.iter() for value in node.attrib.values()) for root in roots)
                 if any(part in name for name in archive.namelist() for part in ('comments','externalLinks','embeddings','vbaProject')):
                     raise UserError('Office 输出包含不允许的附加内容。')
         kept={f['value'] for f in findings if f['keep']}
@@ -164,7 +169,7 @@ def export(store, job, password):
         recovered,_=vault.restore(bundle,data,password)
         if recovered!=source: raise UserError('恢复包校验失败。')
         store.write(job_id,'vault',bundle)
-    report={'job_id':job_id,'version':'2.0','input_format':source_type,'output_format':extension,
+    report={'job_id':job_id,'version':'2.1','input_format':source_type,'output_format':extension,
             'pages':len(job['pages']),'review_revision':job['revision'],'reviewed_pages':len(job['reviewed_pages']),
             'strategy':job['strategy'],'model':detection.MODEL if job['model_digest'] else None,'model_digest':job['model_digest'],
             'redacted_counts':dict(Counter(f['type'] for f in findings if not f['keep'])),
@@ -172,6 +177,7 @@ def export(store, job, password):
             'formula_protected_cells':formula_count,'output_sha256':digest,'created_at':time.time(),
             'verification':{'structure':True,'selected_content':True,'human_page_review':True,'recovery_roundtrip':True if job['reversible'] else None},
             'warnings':job['warnings'],'recovery_mode':'password_encrypted_exact_original' if job['reversible'] else None,
+            'layout_mode':('ooxml_preserved' if source_type in ('docx','xlsx') and extension!='pdf' else 'simplified_office_pdf' if source_type in ('docx','xlsx') else 'original_page_pixels' if source_type=='pdf' or source_type in ('png','jpg','jpeg','webp','bmp') else 'text'),
             'limitations':['自动识别无法保证发现全部敏感信息；手写、印章、人脸、二维码需人工复核。','反脱敏恢复原始文件，不合并对脱敏文件的后续编辑。'],
             'packages':{p:importlib.metadata.version(p) for p in ('Pillow','pypdf','pypdfium2','paddleocr','paddlepaddle','cryptography','python-docx','openpyxl')}}
     store.write(job_id,'report',json.dumps(report,ensure_ascii=False,indent=2).encode())
