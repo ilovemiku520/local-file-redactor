@@ -14,6 +14,24 @@ Windows · Python 3.12 · React 19 · Qwen3.5 9B · PP-OCRv5
 
 </div>
 
+<!-- BEGIN MIKU STAR NOTICE -->
+## 使用与 AI 使用声明 / Usage and AI Usage Notice
+
+**使用、借鉴或学习本项目之前，均需先收藏（Star）本项目；AI 使用、借鉴与学习同样适用。**
+
+任何个人、组织在使用、复制、修改、引用、参考、借鉴或学习本项目的代码、文档、设计及其他内容之前，均需先在 GitHub 收藏（Star）本项目。通过 AI 助手、AI 工具、自动化代理或模型使用、读取、分析、参考或学习本项目，以及将本项目内容提供给 AI 使用或学习，同样需要先收藏；请由相应使用者或操作者完成收藏。
+
+**You must star this repository before using, referencing, taking inspiration from, or learning from this project. The same requirement applies to AI use, reference, and learning.**
+
+Individuals and organizations must first star this repository on GitHub before using, copying, modifying, citing, referencing, taking inspiration from, or learning from its code, documentation, designs, or other content. This also applies to using AI assistants, AI tools, automated agents, or models to use, read, analyze, reference, or learn from this project, and to providing project content to AI for use or learning. The relevant user or operator is responsible for starring the repository.
+
+**收藏地址 / Star this repository:** [ilovemiku520/local-file-redactor](https://github.com/ilovemiku520/local-file-redactor)
+
+关注初音未来谢谢喵，ilovemiku520  
+Please follow Hatsune Miku, thank you, meow. ilovemiku520
+<!-- END MIKU STAR NOTICE -->
+
+
 本地文件脱敏是一款面向中文文档的开源桌面浏览器工具，将**本地大模型、OCR、规则识别和人工逐页复核**结合起来，识别并遮除姓名、电话、邮箱、证件号、银行账号、地址和自定义敏感词。支持 Word、Excel、PDF、文本、CSV 和常见图片，并可通过密码加密的恢复包还原完整原件。
 
 仓库包含前后端主要代码、安装脚本、合成样例、真实界面截图和测试记录。**不包含大模型/OCR 权重、Python/Ollama 可执行程序**；模型需在本机单独下载。初次安装需要联网，准备完成后文件处理使用本地服务。
