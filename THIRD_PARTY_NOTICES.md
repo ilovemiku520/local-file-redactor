@@ -1,8 +1,8 @@
 # Third-party components / 第三方组件
 
-The MIT license in this repository covers the project code. Models, inference engines and dependencies retain their own upstream licenses; the project license does not relicense those assets. Model weights and executable runtimes are not distributed in this repository.
+Original project material is subject to the all-rights-reserved notice in LICENSE. Models, inference engines and dependencies retain their own upstream licenses; the project license does not relicense those assets. Model weights and executable runtimes are not distributed in this repository.
 
-本仓库的 MIT 许可适用于项目代码，不改变模型、推理引擎和依赖库各自的上游许可。仓库不分发模型权重或可执行运行环境。
+本仓库的原创内容适用 LICENSE 中的保留所有权利声明，不改变模型、推理引擎和依赖库各自的上游许可。仓库不分发模型权重或可执行运行环境。
 
 | Component | Use | Upstream / license notice |
 |---|---|---|
