@@ -2,7 +2,7 @@
 
 # Local File Redactor
 
-**Keep documents local. Review sensitive content. Recover originals with encryption.**
+**Local redaction for Chinese-language documents on Windows, including Office files, PDFs, text, and images.**
 
 [简体中文](README.md) | **English**
 
@@ -10,7 +10,7 @@ Windows · Python 3.12 · React 19 · Qwen3.5 9B · PP-OCRv5
 
 [![Source checks](https://github.com/ilovemiku520/local-file-redactor/actions/workflows/ci.yml/badge.svg)](https://github.com/ilovemiku520/local-file-redactor/actions/workflows/ci.yml)
 
-[Quick start](#quick-start) · [Requirements](#requirements) · [Observed results](#observed-results) · [Source layout](#source-layout)
+[Install and run](#quick-start) · [Choose an output format](#choose-an-output-format) · [Observed results](#observed-results) · [Requirements](#requirements) · [Source layout](#source-layout)
 
 </div>
 
@@ -31,16 +31,21 @@ See [LICENSE](LICENSE) for the full terms. Third-party licenses, previously gran
 Please follow Hatsune Miku, thank you, meow. ilovemiku520
 <!-- END RIGHTS NOTICE -->
 
+Import a file and let Qwen3.5, PP-OCRv5, and rule-based detection locate candidate names, phone numbers, email addresses, IDs, bank accounts, addresses, and your own sensitive terms. Review each page and export the redacted file. You can also create a password-encrypted recovery bundle to restore the original later.
 
-Local File Redactor is a document redaction application designed for Chinese documents. It combines a **local language model, OCR, deterministic rules and human page review** to find and remove names, phone numbers, email addresses, IDs, bank accounts, addresses and custom sensitive terms. It handles Word, Excel, PDF, text, CSV and common image formats, with password-encrypted recovery bundles for exact restoration of original files.
-
-This repository contains the main backend/frontend code, setup scripts, synthetic examples, real UI screenshots and validation records. **Model/OCR weights, Python/Ollama executables, private jobs and real user documents are excluded.** Assets are downloaded separately on your computer. Initial setup needs internet access; document processing uses local services once setup is complete.
+The repository provides source code, setup scripts, synthetic samples, and validation records. Initial setup uses the internet to obtain Python, Ollama, and the model assets. After setup, local services process the files.
 
 ![Home: multi-format imports and local processing settings](docs/assets/ui-home.png)
 
-## 2.1 formatting fix
+## Choose an output format
 
-Native Word/Excel export now edits the original OOXML structure instead of creating a new document. Sensitive text spanning multiple styled runs is removed character by character without flattening the paragraph or worksheet. Re-upload and analyze old jobs to use this export path. See [formatting validation](docs/LAYOUT_PRESERVATION.md).
+| What to preserve | Export option |
+|---|---|
+| An editable Word or Excel document | Use DOCX→DOCX or XLSX→XLSX. Version 2.1 replaces sensitive text in the original OOXML structure and retains font and layout properties. |
+| A fixed page appearance | Export to PDF from Office first, then redact that PDF. The exported PDF is rebuilt from page images. |
+| The ability to restore the original file byte for byte | Enable encrypted recovery at export. Restoration requires the matching unchanged output, the `.rdvault` bundle, and the password. |
+
+Re-upload and analyze jobs created before 2.1 to use the new native Office export. [Layout validation](docs/LAYOUT_PRESERVATION.md)
 
 ## Features
 
